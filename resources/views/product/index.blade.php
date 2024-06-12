@@ -49,27 +49,59 @@
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
                                 <div class="card mb-4 shadow-sm" id="tr_{{ $p->id }}">
-                                    <img class="card-img-top" src="{{ asset('images/' . $p->image) }}">
+                                    <!-- <img class="card-img-top" src="{{ asset('images/' . $p->image) }}"> -->
+                                    @if($p->filenames)
+                                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                @foreach ($p->filenames as $filename)
+                                                    @if ($loop->first)
+                                                        <div class="item active">
+                                                            <img src="{{asset('images/product/'.$p->id.'/'.$filename)}}"/>
+                                                        </div>
+                                                    @endif
+
+                                                    <div class="item">
+                                                        <img src="{{asset('images/product/'.$p->id.'/'.$filename)}}"/>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    @endif
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $p->name }}</h5>
                                         <h7>{{ $p->hotel->name }}</h7>
                                         <p class="card-text">{{ $p->tipe_kamar }}</p>
+                                        <small class="text-muted">Price: {{ $p->price }}</small>
+                                        <br><br>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex btn-group">
                                                 <a class="btn btn-sm btn-outline-secondary mr-3" href="{{ route('product.edit', $p->id) }}">Edit</a>
                                                 <a href="#modalEditA" class="btn btn-sm btn-outline-secondary mr-3" data-toggle="modal" onclick="getEditForm({{ $p->id }})">Edit Type A</a>
                                                 <a href="{{ url('product/uploadPhoto/'.$p->id) }}">
-                                                    <button class='btn btn-xs btn-outline-secondary mr-3'>upload</button>
+                                                    <button class='btn btn-xs btn-outline-secondary mr-3'>upload photo</button>
                                                 </a>
+                                                <form style="display: inline" method="POST" action="{{url('product/delPhoto')}}">
+                                                    @csrf
+                                                    <input type="hidden" value="{{'product/'.$p->id.'/'.$filename}}" name='filepath' />
+                                                    <input type="submit" value="Delete Photo" class="btn btn-danger btn-xs mr-3" onclick="return confirm('Are you sure ? ');">
+                                                </form>
                                                 <form method="POST" action="{{ route('product.destroy', $p->id) }}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <input type="submit" value="delete"
-                                                        class="btn btn-sm btn-outline-secondary"
+                                                        class="btn btn-danger btn-xs"
                                                         onclick="return confirm('Are you sure to delete {{ $p->id }} - {{ $p->name }} ? ');">
                                                 </form>
+
                                             </div>
-                                            <small class="text-muted">Price: {{ $p->price }}</small>
                                         </div>
                                     </div>
                                 </div>

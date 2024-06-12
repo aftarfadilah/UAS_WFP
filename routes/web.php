@@ -77,9 +77,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('hotel/uploadLogo/{hotel_id}', [HotelController::class, 'uploadLogo']);
     Route::post('hotel/simpanLogo', [HotelController::class, 'simpanLogo']);
 
-    Route::get('hotel/uploadPhoto/{hotel_id}', [HotelController::class, 'uploadPhoto']);
-    Route::post('hotel/simpanPhoto', [HotelController::class, 'simpanPhoto']);
-
     // Type
     Route::resource('type', TypeController::class);
     Route::post('customTypes/getEditForm', [TypeController::class, 'getEditForm'])->name('type.getEditForm');
@@ -92,11 +89,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('customtransaction/deleteData', [TransactionController::class, 'deleteData'])->name('transaction.deleteData');
 
     // Product
-    // Route::get('/product', [ProductController::class, 'index']);
-    // Route::get('/product/{id}', [ProductController::class, 'show']);
-    // Route::post('/product', [ProductController::class, 'create'])->name('product.create');
-    // Route::put('/product/{id}', [ProductController::class, 'edit'])->name('product.edit');
+    // Route::get('product', [ProductController::class, 'index']);
+    // Route::get('product/{id}', [ProductController::class, 'show']);
+    // Route::post('product', [ProductController::class, 'create'])->name('product.create');
+    // Route::put('product/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::resource('product', ProductController::class);
+    
+    Route::get('product/uploadPhoto/{product_id}', [ProductController::class, 'uploadPhoto']);
+    Route::post('product/simpanPhoto', [ProductController::class, 'simpanPhoto']);
+    Route::post('product/delPhoto', [ProductController::class, 'delPhoto']);
+
     Route::post('customproduct/getEditForm', [ProductController::class, 'getEditForm'])->name('product.getEditForm');
     Route::post('customproduct/deleteData', [ProductController::class, 'deleteData'])->name('product.deleteData');
     Route::get('/tampil-produk/{id}', [ProductController::class, 'tampil-produk'])->name('hotel.tampilProduk');

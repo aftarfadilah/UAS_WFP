@@ -16,8 +16,8 @@ class ProductController extends Controller
      */
     public function index() {
         $products=Product::all();
-        foreach($products as $r) {
-            $directory = public_path('product/'.$r->id);
+        foreach($products as $product) {
+            $directory = public_path('/images/product/'.$product->id);
             if(File::exists($directory))
             {
                 $files = File::files($directory);
@@ -25,13 +25,10 @@ class ProductController extends Controller
                 foreach ($files as $file) {
                     $filenames[] = $file->getFilename();
                 }
-                $r['filenames']=$filenames;
+                $product['filenames']=$filenames;
             }
         }
-        return view('product.index',compact('products'));
-    // $products = Product::all();
-    // // dd($products);
-    // return view('product.index', ['dataku'=>$products]);
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -165,5 +162,27 @@ class ProductController extends Controller
             'msg' => 'type data is removed !'
         ), 200);
     }
+
+    public function uploadPhoto(Request $request) {
+        $product_id=$request->product_id;
+        $product=Product::find($product_id);
+        return view('product.formUploadPhoto',compact('product'));
+    }
+
+    public function simpanPhoto(Request $request) {
+        $file=$request->file("file_photo");
+        $folder='images/product/'.$request->product_id;
+        @File::makeDirectory(public_path()."/".$folder);
+        $filename=time()."_".$file->getClientOriginalName();
+        $file->move($folder,$filename);
+        return redirect()->route('product.index')->with('status','photo terupload');
+    }
+
+    public function delPhoto(Request $request) {
+        File::delete(public_path()."/images/".$request->filepath);
+        return redirect()->route('product.index')->with('status','photo dihapus');
+    }
+
+
     
 }
