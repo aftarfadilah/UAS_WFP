@@ -88,11 +88,13 @@
                                                 <a href="{{ url('product/uploadPhoto/'.$p->id) }}">
                                                     <button class='btn btn-xs btn-outline-secondary mr-3'>upload photo</button>
                                                 </a>
-                                                <form style="display: inline" method="POST" action="{{url('product/delPhoto')}}">
-                                                    @csrf
-                                                    <input type="hidden" value="{{'product/'.$p->id.'/'.$filename}}" name='filepath' />
-                                                    <input type="submit" value="Delete Photo" class="btn btn-danger btn-xs mr-3" onclick="return confirm('Are you sure ? ');">
-                                                </form>
+                                                @if($p->filenames)
+                                                    <form style="display: inline" method="POST" action="{{url('product/delPhoto')}}">
+                                                        @csrf
+                                                        <input type="hidden" value="{{'product/'.$p->id.'/'.$filename}}" name='filepath' />
+                                                        <input type="submit" value="Delete Photo" class="btn btn-danger btn-xs mr-3" onclick="return confirm('Are you sure ? ');">
+                                                    </form>
+                                                @endif
                                                 <form method="POST" action="{{ route('product.destroy', $p->id) }}">
                                                     @csrf
                                                     @method('DELETE')
