@@ -99,15 +99,4 @@ class FrontEndController extends Controller
         return redirect()->route('laralux.index')->with('status','Checkout berhasil');
     }
 
-    public function insertProducts($cart,$user) {
-        $total = 0;
-        
-        foreach ($cart as $c) {
-            $subtotal = $c['quantity']* $c['price'];
-            $total += $subtotal;
-            $this->products()->attach($c['id'],['quantity' => $c['quantity'], 'subtotal' => $subtotal]);
-        }
-    }
-
-
 }
