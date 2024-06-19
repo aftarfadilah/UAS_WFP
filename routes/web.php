@@ -6,6 +6,8 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\FrontEndController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('product/{id}', [ProductController::class, 'show']);
     // Route::post('product', [ProductController::class, 'create'])->name('product.create');
     // Route::put('product/{id}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::resource('product', ProductController::class);
     
     Route::get('product/uploadPhoto/{product_id}', [ProductController::class, 'uploadPhoto']);
     Route::post('product/simpanPhoto', [ProductController::class, 'simpanPhoto']);
@@ -108,7 +111,21 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::resource('product', ProductController::class);
+Route::get('/laralux', [FrontEndController::class, 'index'])->name('laralux.index');
+Route::get('/laralux/{laralux}', [FrontEndController::class, 'show'])->name('laralux.show');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('laralux/user/cart', function(){
+        return view('frontend.cart');
+    })->name('cart');
+    Route::get('laralux/cart/add/{id}', [FrontEndController::class, 'addToCart'])->name('addCart');
+    Route::get('laralux/cart/delete/{id}', [FrontEndController::class, 'deleteFromCart'])->name('delFromCart');
+    
+    Route::post('laralux/cart/addQty', [FrontEndController::class, 'addQuantity'])->name('addQty');
+    Route::post('laralux/cart/reduceQty', [FrontEndController::class, 'reduceQuantity'])->name('redQty');
+    Route::get('laralux/cart/checkout',[FrontEndController::class,'checkout'])->name('checkout');
+});
+
 
 Route::get('report/hotel/avgPriceByHotelType', [HotelController::class, 'avgHotelPrice']);
 
