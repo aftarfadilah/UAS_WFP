@@ -93,7 +93,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('product/{id}', [ProductController::class, 'show']);
     // Route::post('product', [ProductController::class, 'create'])->name('product.create');
     // Route::put('product/{id}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::resource('product', ProductController::class);
     
     Route::get('product/uploadPhoto/{product_id}', [ProductController::class, 'uploadPhoto']);
     Route::post('product/simpanPhoto', [ProductController::class, 'simpanPhoto']);
@@ -109,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::resource('product', ProductController::class);
 
 Route::get('report/hotel/avgPriceByHotelType', [HotelController::class, 'avgHotelPrice']);
 
