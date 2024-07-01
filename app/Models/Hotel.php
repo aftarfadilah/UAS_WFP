@@ -12,7 +12,7 @@ class Hotel extends Model
     use SoftDeletes;
 
     public function type(){
-        return $this->belongsTo('App\Models\Type')->withTrashed();
+        return $this->belongsTo('App\Models\HotelType')->withTrashed();
     }
 
     public function products(){

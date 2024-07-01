@@ -81,16 +81,18 @@
                                             <h4 class="modal-title">{{ $hotel->name }}</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <img src="{{ asset(env('PATH_GAMBAR_HOTEL') . $hotel->id . '.jpg') }}"
-                                                style="Width:200px" />
-                                            <p>Alamat: {{ $hotel->address }}</p>
-                                            <p>Kota: {{ $hotel->city }}</p>
-                                            <p>Negara: {{ $hotel->state }}</p>
-                                            <p>Kode Pos: {{ $hotel->postcode }}</p>
+                                            <img src="{{ asset('/logo/'.$hotel->id.'.jpg') }}" style="Width:100%" />
+                                            <br><br>
+                                            <p>Type: {{ $hotel->type->name }}</p>
+                                            <p>Address: {{ $hotel->address }}, {{ $hotel->city }}, {{ $hotel->state }} {{ $hotel->postcode }}</p>
+                                            <p>Email: {{ $hotel->email }}</p>
+                                            <p>Phone: {{ $hotel->phone }}</p>
+                                            <p>Website: {{ $hotel->website }}</p>
+                                            <p>Fax: {{ $hotel->fax }} </p>
                                         </div>
-                                        {{-- <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div> --}}
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

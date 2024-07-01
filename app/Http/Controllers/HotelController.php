@@ -40,18 +40,9 @@ class HotelController extends Controller
                             'addressType' => 'required',
                             'cityType' => 'required',
                             'stateType'=> 'required',
-                            'countryType'=> 'required',
                             'emailType'=> 'required',
-                            'accommodationType'=> 'required',
-                            'categoryType'=> 'required',
-                            'type_id'=> 'required',
+                            'hotel_type_id'=> 'required',
                             'postcode'=> 'required',
-                        'longitude'=> 'required',
-                        'latitude'=> 'required',
-                        'phone'=> 'required',
-                    'fax'=> 'required',
-                        'web'=> 'required',
-                        'currency'=> 'required',
                         ]);
 
 
@@ -60,19 +51,22 @@ class HotelController extends Controller
         $newData->address = $request->addressType;
         $newData->city = $request->cityType;
         $newData->state = $request->stateType;
-        $newData->country_id = $request->countryType;
-        $newData->email = $request->emailType;
-        $newData->accommodation_type = $request->accommodationType;
-        $newData->category = $request->categoryType;
-        $newData->type_id = $request->type_id;
-        $newData->postcode = $request->postcode;
-        $newData->longitude =  $request->longitude;
-        $newData->latitude =  $request->latitude;
-        $newData->phone =  $request->phone;
-        $newData->fax =  $request->fax;
-        $newData->currency =  $request->currency;
-        $newData->web =  $request->web;
+        $newData->type_id = $request->hotel_type_id;
         $newData->image = '/logo/1.jpg';
+        // $newData->logo = '/logo/1.jpg';
+        $newData->postcode = $request->postcode;
+        $newData->email = $request->emailType;
+        if ($request->has('phone')) {
+            $newData->phone = $request->phone;
+        }
+    
+        if ($request->has('fax')) {
+            $newData->fax = $request->fax;
+        }
+    
+        if ($request->has('web')) {
+            $newData->web = $request->web;
+        }
 
         $newData->save();
         return redirect()->route('hotel.index');
