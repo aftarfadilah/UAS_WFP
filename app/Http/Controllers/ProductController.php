@@ -36,8 +36,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $hotel = Hotel::all();
-        return view ('product.create', ['hotel'=>$hotel]);
+        $datas = Hotel::all();
+        return view ('product.create', ['datas'=>$datas]);
     }
 
     /**
