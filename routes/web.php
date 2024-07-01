@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\TypeController;
+use App\Http\Controllers\HotelTypeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Auth;
@@ -25,19 +25,6 @@ use App\Http\Controllers\FacilityController;
 Route::get('/', function () {
     return view('/auth/login');
 });
-
-// Route::get('/user/{id}', function($id){
-//     return 'User '.$id;
-// });
-
-// Route::get('/user/{name?}', function($name='_ALL_'){
-//     if($name=='_ALL_'){
-//         return 'List User';
-//     }
-//     else{
-//         return $name;
-//     }
-// });
 
 Route::get('/hotel', function(){
     return view('hotel');
@@ -67,12 +54,6 @@ Route::get('/promo/{jenis}', function($jenis){
     }
 });
 
-// Route::resource('hotel', HotelController::class);
-
-// Route::resource('transaction', TransactionController::class);
-
-// Route::resource('type', TypeController::class);
-
 Route::middleware(['auth'])->group(function () {
     // Hotel
     Route::resource('hotel', HotelController::class);
@@ -82,12 +63,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('hotel/uploadLogo/{hotel_id}', [HotelController::class, 'uploadLogo']);
     Route::post('hotel/simpanLogo', [HotelController::class, 'simpanLogo']);
 
-    // Type
-    Route::resource('type', TypeController::class);
-    Route::post('type/deleteData', [TypeController::class, 'deleteData'])->name('type.deleteData');
-    Route::post('customTypes/getEditForm', [TypeController::class, 'getEditForm'])->name('type.getEditForm');
-    Route::post('customTypes/getEditFormB', [TypeController::class, 'getEditFormB'])->name('type.getEditFormB');
-    Route::post('customtype/saveDataTD',[TypeController::class,'saveDataTD'])->name('type.saveDataTD');
+    Route::resource('hoteltype', HotelTypeController::class, [
+        'names' => [
+            'index' => 'hotel.type.index',
+            'create' => 'hotel.type.create',
+            'store' => 'hotel.type.store',
+            'show' => 'hotel.type.show',
+            'edit' => 'hotel.type.edit',
+            'update' => 'hotel.type.update',
+            'destroy' => 'hotel.type.destroy'
+        ]
+    ]);
+    Route::post('hoteltype/deleteData', [HotelTypeController::class, 'deleteData'])->name('hotel.type.deleteData');
+    Route::post('hoteltype/getEditForm', [HotelTypeController::class, 'getEditForm'])->name('hotel.type.getEditForm');
+    Route::post('hoteltype/saveDataTD', [HotelTypeController::class, 'saveDataTD'])->name('hotel.type.saveDataTD');
 
     // Transaction
     Route::resource('transaction', TransactionController::class);
@@ -95,10 +84,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('customtransaction/deleteData', [TransactionController::class, 'deleteData'])->name('transaction.deleteData');
 
     // Product
-    // Route::get('product', [ProductController::class, 'index']);
-    // Route::get('product/{id}', [ProductController::class, 'show']);
-    // Route::post('product', [ProductController::class, 'create'])->name('product.create');
-    // Route::put('product/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::resource('product', ProductController::class);
     
     Route::get('product/uploadPhoto/{product_id}', [ProductController::class, 'uploadPhoto']);

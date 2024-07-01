@@ -24,7 +24,7 @@
                     <th>Alamat</th>
                     <th>Kota</th>
                     <th>Tipe</th>
-                    <th>List Produk</th>
+                    <!-- <th>List Produk</th> -->
                     <th>Action</th>
                 </tr>
             </thead>

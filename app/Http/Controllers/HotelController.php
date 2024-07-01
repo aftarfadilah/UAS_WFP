@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
-use App\Models\Type;
+use App\Models\HotelType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +26,7 @@ class HotelController extends Controller
     public function create()
     {
         $this->authorize('create', Hotel::class);
-        $types = Type::all();
+        $types = HotelType::all();
         return view('hotel.create', ['types'=>$types]);
         
     }
@@ -92,7 +92,7 @@ class HotelController extends Controller
     public function edit($id)
     {
         $data = Hotel::find($id);
-        $types = Type::all();
+        $types = HotelType::all();
         return view('hotel.edit', compact('data', 'types'));
     }
 
@@ -102,14 +102,12 @@ class HotelController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate(['nameType' => 'required',
+                            'hotel_type_id'=> 'required',
                             'addressType' => 'required',
                             'cityType' => 'required',
                             'stateType'=> 'required',
-                            'countryType'=> 'required',
                             'emailType'=> 'required',
-                            'accommodationType'=> 'required',
                             'categoryType'=> 'required',
-                            'type_id'=> 'required',
                             'postcode'=> 'required']);
 
 
@@ -118,12 +116,9 @@ class HotelController extends Controller
         $newData->address = $request->addressType;
         $newData->city = $request->cityType;
         $newData->state = $request->stateType;
-        $newData->country_id = $request->countryType;
         $newData->email = $request->emailType;
-        $newData->accommodation_type = $request->accommodationType;
-        $newData->category = $request->categoryType;
         $newData->type_id = $request->type_id;
-        $newData->post_code = $request->postcode;
+        $newData->postcode = $request->postcode;
 
         $newData->save();
         return redirect()->route('hotel.index');
@@ -162,7 +157,7 @@ class HotelController extends Controller
 
     public function avgHotelPrice() {
 
-        $data = Type::rightJoin('hotels as h', 'types.id', '=', 'h.type_id')
+        $data = HotelType::rightJoin('hotels as h', 'types.id', '=', 'h.type_id')
         ->leftJoin('products as p', 'h.id', '=','p.hotel_id' )
         ->select('types.name as namet','h.name', DB::raw('avg(p.price) as avg_price'))
         ->groupBy('types.name', 'h.name')

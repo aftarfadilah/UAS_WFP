@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Type;
+use App\Models\HotelType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TypeController extends Controller
+class HotelTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Type::all();
-        return view('type.index', compact('data'));
+        $data = HotelType::all();
+        return view('hotel.type.index', compact('data'));
     }
 
     /**
@@ -22,7 +22,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        return view('type.create');
+        return view('hoteltype.create');
     }
 
     /**
@@ -32,16 +32,16 @@ class TypeController extends Controller
     {
         $request->validate(['nameType' => 'required']);
 
-        $newType = new Type;
+        $newType = new HotelType;
         $newType->name = $request->nameType;
         $newType->save();
-        return redirect()->route('type.index');
+        return redirect()->route('hotel.type.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Type $type)
+    public function show(HotelType $type)
     {
         //
     }
@@ -51,8 +51,8 @@ class TypeController extends Controller
      */
     public function edit($id)
     {
-        $data = Type::find($id);
-        return view('type.edit', compact('data'));
+        $data = HotelType::find($id);
+        return view('hotel.type.edit', compact('data'));
     }
 
     /**
@@ -62,10 +62,10 @@ class TypeController extends Controller
     {
         $request->validate(['nameType' => 'required']);
 
-        $newType = Type::find($id);
+        $newType = HotelType::find($id);
         $newType->name = $request->nameType;
         $newType->save();
-        return redirect()->route('type.index')->with('status', 'Data Updated');
+        return redirect()->route('hotel.type.index')->with('status', 'Data Updated');
     }
 
     /**
@@ -77,29 +77,29 @@ class TypeController extends Controller
         $this->authorize('delete-permission', $user);
 
         try {
-            $hotel = Type::find($id);
+            $hotel = HotelType::find($id);
             $hotel->delete();
             return redirect()->route('type.index');
         } catch (\Throwable $th) {
             $msg = "Data tidak dapat dihapus karena sudah digunakan";
-            return redirect()->route('type.index')->with('error', $msg);
+            return redirect()->route('hotel.type.index')->with('error', $msg);
         }
     }
 
     public function getEditForm(Request $request)
     {
         $id = $request->id;
-        $data = Type::find($id);
+        $data = HotelType::find($id);
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('type.getEditForm', compact('data'))->render()
+            'msg' => view('hotel.type.getEditForm', compact('data'))->render()
         ), 200);
     }
 
     public function deleteData(Request $request)
     {
         $id = $request->id;
-        $data = Type::find($id);
+        $data = HotelType::find($id);
         $data->delete();
         return response()->json(array(
             'status' => 'oke',

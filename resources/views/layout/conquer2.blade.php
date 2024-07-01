@@ -495,23 +495,51 @@ License: You must have a valid license purchased only from themeforest(the above
                     
 				</li> -->
 				<li >
-                <a href="{{ url('hotel') }}">
-                    <i class="icon-bar-chart"></i>
-                    <span class="title">Daftar Hotel</span>
+                	<a href="{{ url('hotel') }}">
+                    	<i class="icon-list"></i>
+                    	<span class="title">Hotel</span>
                     </a>
-				</li>
-				<li class="last ">
-					<a href="{{ url('hotel/Sheraton') }}">
-					<i class="icon-user"></i>
-					<span class="title">Testing</span>
-					</a>
+					<ul class="sub-menu">
+						<li>
+							<a href="{{ route('hotel.index') }}">
+								<i class="icon-list"></i>
+								<span class="title">Hotel List</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ route('hotel.type.index') }}">
+								<i class="icon-list"></i>
+								<span class="title">Hotel Type</span>
+							</a>
+						</li>
+					</ul>
 				</li>
 				<li >
-					<a href="{{ url('transaction') }}">
-						{{-- <i class="icon-bar-chart"></i> --}}
-						<span class="title">Daftar Transaksi</span>
-						</a>
-					</li>
+					<a href="{{ url('product') }}">
+                    	<i class="icon-list"></i>
+                    	<span class="title">Product</span>
+                    </a>
+					<ul class="sub-menu">
+						<li>
+							<a href="{{ route('product.index') }}">
+								<i class="icon-list"></i>
+								<span class="title">Product List</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ route('product.index') }}">
+								<i class="icon-list"></i>
+								<span class="title">Product Type</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li >
+                	<a href="{{ url('facility') }}">
+                    	<i class="icon-list"></i>
+                    	<span class="title">Facilities</span>
+                    </a>
+				</li>
 			</ul>
 			<!-- END SIDEBAR MENU -->
 		</div>

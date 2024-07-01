@@ -1,9 +1,7 @@
 @extends('layout.conquer2')
 @section('anak')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <a href="{{ route('type.create') }}" class="btn btn-success">+ New Type</a>
-    <a href="#modalCreate" data-toggle="modal" class="btn btn-info">+ New Type(with Modals)</a>
+    <a href="#modalCreate" data-toggle="modal" class="btn btn-info">+ New Type</a>
 
     <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
         <div class="modal-dialog">
@@ -13,14 +11,12 @@
                     <h4 class="modal-title">Add New Type</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('type.store') }}">
+                    <form method="POST" action="{{ route('hotel.type.store') }}">
                         @csrf
                         <div class="form-group">
                             <label for="inputType">Type Name</label>
                             <input name="nameType" type="text" class="form-control" id="typeInput"
                                 aria-describedby="typeHelp" placeholder="Enter type">
-                            <small id="typeHelp" class="form-text text-muted">We'll never share your type name with anyone
-                                else.</small>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -33,20 +29,10 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalEditA" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
         <div class="modal-dialog modal-wide">
             <div class="modal-content">
                 <div class="modal-body" id="modalContent">
-                    {{-- You can put animated loading image here... --}}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalEditB" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog modal-wide">
-            <div class="modal-content">
-                <div class="modal-body" id="modalContentB">
                     {{-- You can put animated loading image here... --}}
                 </div>
             </div>
@@ -64,16 +50,11 @@
                 <tr id="tr_{{ $types->id }}">
                     <td id="td_name_{{ $types->id }}">{{ $types->name }}</td>
                     <td>
-                        <a class="btn btn-warning" href="{{ route('type.edit', $types->id) }}">Edit</a>
-                        <!-- <a href="#modalEditA" class="btn btn-primary" data-toggle="modal"
-                            onclick="getEditForm({{ $types->id }})">Edit Type A</a>
-                        <a href="#modalEditB" class="btn btn-success" data-toggle="modal"
-                            onclick="getEditFormB({{ $types->id }})">Edit Type B</a> -->
-                        <form method="POST" action="{{ route('type.destroy', $types->id) }}">
+                        <a href="#modalEdit" class="btn btn-primary" data-toggle="modal" onclick="getEditForm({{ $types->id }})">Edit</a>
+                        <form method="POST" action="{{ route('hotel.type.destroy', $types->id) }}" style="display: inline" class="btn btn-danger">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="Delete" class="btn btn-danger"
-                                onclick="return confirm('Are you sure to delete {{ $types->id }} - {{ $types->name }} ? ');">
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure to delete {{ $types->id }} - {{ $types->name }} ? ');" style="background-color: transparent; border: none; padding: 0">
                         </form>
                     </td>
                     <td>
@@ -93,8 +74,8 @@
     <script>
         function getEditForm(id) {
             $.ajax({
-                type: POST,
-                url: '{{ route('type.getEditForm') }}',
+                type: 'POST',
+                url: "{{ route('hotel.type.getEditForm') }}",
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'id': id
@@ -108,7 +89,7 @@
         function deleteDataRemoveTR(type_id) {
             $.ajax({
                 type: 'POST',
-                url: '{{ route('type.deleteData') }}',
+                url: '{{ route('hotel.type.deleteData') }}',
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'id': type_id
@@ -121,26 +102,12 @@
             });
         }
 
-        function getEditFormB(type_id) {
-            $.ajax({
-                type: POST,
-                url: '{{ route('type.getEditFormB') }}',
-                data: {
-                    '_token': '<?php echo csrf_token(); ?>',
-                    'id': type_id
-                },
-                success: function(data) {
-                    $('#modalContentB').html(data.msg)
-                }
-            });
-        }
-
         function saveDataUpdateTD(type_id) {
             var eName = $('#eName').val();
             console.log(eName); //debug->print to browser console
             $.ajax({
                 type: 'POST',
-                url: '{{ route('type.saveDataTD') }}',
+                url: '{{ route('hotel.type.saveDataTD') }}',
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'id': type_id,
