@@ -8,6 +8,8 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontEndController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\FacilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,3 +137,4 @@ Route::get('hotel/showProduk', [HotelController::class, 'showProduk'])->name('ho
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('facilities', FacilityController::class);
