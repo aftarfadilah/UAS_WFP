@@ -21,7 +21,7 @@ use App\Http\Controllers\FrontEndController;
 */
 
 Route::get('/', function () {
-    return view('hotel');
+    return view('/auth/login');
 });
 
 // Route::get('/user/{id}', function($id){
@@ -75,12 +75,14 @@ Route::middleware(['auth'])->group(function () {
     // Hotel
     Route::resource('hotel', HotelController::class);
     Route::get('report/availableHotelRooms', [HotelController::class, 'availableHotelRoom'])->name('reportShowHotel');
+    Route::delete('/hotel/{hotel}', [HotelController::class, 'destroy'])->name('hotel.destroy');
 
     Route::get('hotel/uploadLogo/{hotel_id}', [HotelController::class, 'uploadLogo']);
     Route::post('hotel/simpanLogo', [HotelController::class, 'simpanLogo']);
 
     // Type
     Route::resource('type', TypeController::class);
+    Route::post('type/deleteData', [TypeController::class, 'deleteData'])->name('type.deleteData');
     Route::post('customTypes/getEditForm', [TypeController::class, 'getEditForm'])->name('type.getEditForm');
     Route::post('customTypes/getEditFormB', [TypeController::class, 'getEditFormB'])->name('type.getEditFormB');
     Route::post('customtype/saveDataTD',[TypeController::class,'saveDataTD'])->name('type.saveDataTD');
@@ -124,8 +126,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('laralux/cart/addQty', [FrontEndController::class, 'addQuantity'])->name('addQty');
     Route::post('laralux/cart/reduceQty', [FrontEndController::class, 'reduceQuantity'])->name('redQty');
     Route::get('laralux/cart/checkout',[FrontEndController::class,'checkout'])->name('checkout');
-});
 
+});
 
 Route::get('report/hotel/avgPriceByHotelType', [HotelController::class, 'avgHotelPrice']);
 

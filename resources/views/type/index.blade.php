@@ -59,21 +59,20 @@
                 <th>Name</th>
                 <th>Action</th>
             </tr>
-        </thead>
-        <>
+        </thead>    
             @foreach ($data as $types)
-                <tr id="tr_{{ $d->id }}">
+                <tr id="tr_{{ $types->id }}">
                     <td id="td_name_{{ $types->id }}">{{ $types->name }}</td>
                     <td>
                         <a class="btn btn-warning" href="{{ route('type.edit', $types->id) }}">Edit</a>
-                        <a href="#modalEditA" class="btn btn-primary" data-toggle="modal"
+                        <!-- <a href="#modalEditA" class="btn btn-primary" data-toggle="modal"
                             onclick="getEditForm({{ $types->id }})">Edit Type A</a>
                         <a href="#modalEditB" class="btn btn-success" data-toggle="modal"
-                            onclick="getEditFormB({{ $types->id }})">Edit Type B</a>
+                            onclick="getEditFormB({{ $types->id }})">Edit Type B</a> -->
                         <form method="POST" action="{{ route('type.destroy', $types->id) }}">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="delete" class="btn btn-danger"
+                            <input type="submit" value="Delete" class="btn btn-danger"
                                 onclick="return confirm('Are you sure to delete {{ $types->id }} - {{ $types->name }} ? ');">
                         </form>
                     </td>

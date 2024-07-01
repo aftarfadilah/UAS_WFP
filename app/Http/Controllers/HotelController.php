@@ -24,6 +24,7 @@ class HotelController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Hotel::class);
         $types = Type::all();
         return view('hotel.create', ['types'=>$types]);
         
@@ -43,7 +44,14 @@ class HotelController extends Controller
                             'accommodationType'=> 'required',
                             'categoryType'=> 'required',
                             'type_id'=> 'required',
-                            'postcode'=> 'required']);
+                            'postcode'=> 'required',
+                        'longitude'=> 'required',
+                        'latitude'=> 'required',
+                        'phone'=> 'required',
+                    'fax'=> 'required',
+                        'web'=> 'required',
+                        'currency'=> 'required',
+                        ]);
 
 
         $newData = new Hotel();
@@ -57,14 +65,13 @@ class HotelController extends Controller
         $newData->category = $request->categoryType;
         $newData->type_id = $request->type_id;
         $newData->postcode = $request->postcode;
-        $newData->longitude = 0;
-        $newData->latitude = 0;
-        $newData->phone = 0;
-        $newData->fax = 0;
-        $newData->currency = 'idr';
-        $newData->web = 'google.com';
-        $newData->image = '1.jpg';
-        $newData->partner_reference  = 2 ;
+        $newData->longitude =  $request->longitude;
+        $newData->latitude =  $request->latitude;
+        $newData->phone =  $request->phone;
+        $newData->fax =  $request->fax;
+        $newData->currency =  $request->currency;
+        $newData->web =  $request->web;
+        $newData->image = '/logo/1.jpg';
 
         $newData->save();
         return redirect()->route('hotel.index');
@@ -126,8 +133,7 @@ class HotelController extends Controller
      */
     public function destroy($id)
     {
-        $user=Auth::user();
-        $this->authorize('delete-hotel-permission', $user);
+        $this->authorize('delete-hotel-permission', $id);
 
         try{
             $hotel = Hotel::find($id);

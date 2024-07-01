@@ -50,6 +50,55 @@
     <small id="postcodeHelp" class="form-text text-muted">We'll never share your postcode with anyone else.</small>
 </div>
 
+<div class="form-group">
+    <label for="longitudeInput">Longitude</label>
+    <input name="longitude" type="text" class="form-control" id="longitudeInput" aria-describedby="longitudeHelp" placeholder="Enter Longitude">
+    <small id="longitudeHelp" class="form-text text-muted">We'll never share your longitude with anyone else.</small>
+</div>
+
+<div class="form-group">
+    <label for="latitudeInput">Latitude</label>
+    <input name="latitude" type="text" class="form-control" id="latitudeInput" aria-describedby="latitudeHelp" placeholder="Enter Latitude">
+    <small id="latitudeHelp" class="form-text text-muted">We'll never share your latitude with anyone else.</small>
+</div>
+
+<div class="form-group">
+    <label for="partnerReferenceInput">Partner Reference</label>
+    <input name="partner_reference" type="text" class="form-control" id="partnerReferenceInput" aria-describedby="partnerReferenceHelp" placeholder="Enter Partner Reference">
+    <small id="partnerReferenceHelp" class="form-text text-muted">We'll never share your partner reference with anyone else.</small>
+</div>
+
+<div class="form-group">
+    <label for="phoneInput">Phone</label>
+    <input name="phone" type="text" class="form-control" id="phoneInput" aria-describedby="phoneHelp" placeholder="Enter Phone Number">
+    <small id="phoneHelp" class="form-text text-muted">We'll never share your phone number with anyone else.</small>
+</div>
+
+<div class="form-group">
+    <label for="imageInput">Image</label>
+    <input name="image" type="file" class="form-control" id="imageInput" aria-describedby="imageHelp">
+    <small id="imageHelp" class="form-text text-muted">Upload an image for the hotel.</small>
+</div>
+
+<div class="form-group">
+    <label for="webInput">Website</label>
+    <input name="web" type="url" class="form-control" id="webInput" aria-describedby="webHelp" placeholder="Enter Website URL">
+    <small id="webHelp" class="form-text text-muted">Enter the hotel's website URL.</small>
+</div>
+
+<div class="form-group">
+    <label for="currencyInput">Currency</label>
+    <input name="currency" type="text" class="form-control" id="currencyInput" aria-describedby="currencyHelp" placeholder="Enter Currency">
+    <small id="currencyHelp" class="form-text text-muted">Enter the currency used by the hotel.</small>
+</div>
+
+<div class="form-group">
+    <label for="faxInput">Fax</label>
+    <input name="fax" type="text" class="form-control" id="faxInput" aria-describedby="faxHelp" placeholder="Enter Fax Number">
+    <small id="faxHelp" class="form-text text-muted">Enter the hotel's fax number.</small>
+</div>
+
+
     <div class="form-group">
         <label for="type_id">Hotel Type</label>
         <select class="form-control" name="type_id">
