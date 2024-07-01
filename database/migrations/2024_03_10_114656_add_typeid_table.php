@@ -14,7 +14,13 @@ return new class extends Migration
         Schema::table('hotels', function(Blueprint $table){
             $table->unsignedBigInteger('type_id');
 
-            $table->foreign('type_id')->references('id')->on('types');
+            $table->foreign('type_id')->references('id')->on('hotel_types');
+        });
+
+        Schema::table('products', function(Blueprint $table){
+            $table->unsignedBigInteger('type_id');
+
+            $table->foreign('type_id')->references('id')->on('product_types');
         });
 
         
@@ -26,6 +32,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('hotels', function(Blueprint $table){
+            $table->dropForeign(['type_id']);
+            $table->dropColumn(['type_id']);
+        });
+
+        Schema::table('products', function(Blueprint $table){
             $table->dropForeign(['type_id']);
             $table->dropColumn(['type_id']);
         });

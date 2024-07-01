@@ -18,8 +18,10 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->softDeletes();
         });
-
-        Schema::table('types', function (Blueprint $table) {
+        Schema::table('hotel_types', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+        Schema::table('product_types', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -36,7 +38,10 @@ return new class extends Migration
             $table->dropSoftDeletes();
         });
 
-        Schema::table('types', function (Blueprint $table) {
+        Schema::table('hotel_types', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+        Schema::table('product_types', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

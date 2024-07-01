@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facilities', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('users', function(Blueprint $table){
+            $table->unsignedBigInteger('poin');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facilities');
+        Schema::table('users', function(Blueprint $table){
+            $table->dropColumn(['poin']);
+        });
     }
 };

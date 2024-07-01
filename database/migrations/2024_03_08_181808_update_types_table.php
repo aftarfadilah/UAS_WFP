@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('types', function(Blueprint $table){
+        Schema::table('hotel_types', function(Blueprint $table){
+            $table->string('name');
+        });
+
+        Schema::table('product_types', function(Blueprint $table){
             $table->string('name');
         });
     }
@@ -21,7 +25,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('types', function(Blueprint $table){
+        Schema::table('hotel_types', function(Blueprint $table){
+            $table->dropColumn(['name']);
+        });
+        Schema::table('product_types', function(Blueprint $table){
             $table->dropColumn(['name']);
         });
     }
