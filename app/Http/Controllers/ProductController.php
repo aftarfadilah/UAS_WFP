@@ -139,7 +139,7 @@ class ProductController extends Controller
         return response()->json(array(
             'status'=>'oke',
             'msg'=>$productString
-          ),200);        
+          ),200);
     }
 
     public function getEditForm(Request $request)

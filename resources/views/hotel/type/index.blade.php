@@ -1,5 +1,5 @@
 @extends('layout.conquer2')
-@section('anak2', 'Daftar Hotel')
+@section('anak2', 'Hotel Types')
 @section('anak')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <a href="#modalCreate" data-toggle="modal" class="btn btn-info">+ New Type</a>

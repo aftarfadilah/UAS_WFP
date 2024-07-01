@@ -119,6 +119,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('producttype/getEditForm', [ProductTypeController::class, 'getEditForm'])->name('product.type.getEditForm');
     Route::post('producttype/saveDataTD', [ProductTypeController::class, 'saveDataTD'])->name('product.type.saveDataTD');
 
+    // Facilities
+    Route::resource('facilities', FacilityController::class, [
+        'names' => [
+            'index' => 'facilities.index',
+            'create' => 'facilities.create',
+            'store' => 'facilities.store',
+            'show' => 'facilities.show',
+            'edit' => 'facilities.edit',
+            'update' => 'facilities.update',
+            'destroy' => 'facilities.destroy'
+        ]
+    ]);
 
     // Customer
     Route::post('customcustomer/getEditForm', [CustomerController::class, 'getEditForm'])->name('customer.getEditForm');
@@ -150,4 +162,4 @@ Route::get('hotel/showProduk', [HotelController::class, 'showProduk'])->name('ho
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('facilities', FacilityController::class);
+
