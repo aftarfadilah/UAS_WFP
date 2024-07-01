@@ -23,6 +23,14 @@ class Product extends Model
         return $dataku;
     }
 
+    public function productType(){
+        return $this->belongsTo(ProductType::class, 'product_type_id')->withTrashed();
+    }
+
+    public function facilities(){
+        return $this->belongsToMany(Facility::class, 'product_facility', 'product_id', 'facility_id')->withTrashed();
+    }
+
     /**
      * The roles that belong to the Product
      *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class FacilityController extends Controller
@@ -15,15 +16,18 @@ class FacilityController extends Controller
         $facilities = Facility::all();
         return view('facilities.index', compact('facilities'));
     }
+    
     public function create()
     {
-        return view('facilities.create');
+        $products = Product::all();
+        return view('facilities.create', compact('products'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'product_id' => 'required',
             'description' => 'nullable|string',
         ]);
 
@@ -33,7 +37,9 @@ class FacilityController extends Controller
     }
     public function edit(Facility $facility)
     {
-        return view('facilities.edit', compact('facility'));
+        $facility = Facility::find($facility->id);
+        $products = Product::all();
+        return view('facilities.edit', compact('facility', 'products'));
     }
 
     
@@ -41,6 +47,7 @@ class FacilityController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'product_id' => 'required',
             'description' => 'nullable|string',
         ]);
 

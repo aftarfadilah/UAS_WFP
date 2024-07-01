@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 class Facility extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'product_id', 'description'];
 
-    
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

@@ -45,7 +45,6 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{{ asset('assets/css/themes/default.css')}}" rel="stylesheet" type="text/css" id="style_color"/>
 <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -171,7 +170,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					</ul>
 				</li>
 				<li >
-                	<a href="{{ url('facility') }}">
+                	<a href="{{ route('facilities.index') }}">
                     	<i class="icon-list"></i>
                     	<span class="title">Facilities</span>
                     </a>

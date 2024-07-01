@@ -1,17 +1,9 @@
-<!-- resources/views/facilities/index.blade.php -->
+@extends('layout.conquer2')
+@section('anak2', 'Facilities')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facilities</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1>Facilities</h1>
-        
+@section('anak')
+    <main>
+        <a href="{{ route('facilities.create') }}" class="btn btn-primary">Add Facility</a>
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -24,6 +16,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Product</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -33,6 +26,7 @@
                         <td>{{ $facility->id }}</td>
                         <td>{{ $facility->name }}</td>
                         <td>{{ $facility->description }}</td>
+                        <td>{{ $facility->product->name }}</td>
                         <td>
                             <a href="{{ route('facilities.edit', $facility->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form action="{{ route('facilities.destroy', $facility->id) }}" method="POST" style="display:inline;">
@@ -45,8 +39,5 @@
                 @endforeach
             </tbody>
         </table>
-        
-        <a href="{{ route('facilities.create') }}" class="btn btn-primary">Add Facility</a>
-    </div>
-</body>
-</html>
+    </main>
+@endsection

@@ -1,30 +1,34 @@
-<!-- resources/views/facilities/edit.blade.php -->
+@extends('layout.conquer2')
+@section('anak2', 'Edit Facilities')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Facility</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1>Edit Facility</h1>
-        <form action="{{ route('facilities.update', $facility->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" id="name" value="{{ $facility->name }}" required>
+@section('anak')
+<div>
+    <form action="{{ route('facilities.update', $facility->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name" value="{{ $facility->name }}" required>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="productSelect"><span style="color: red">*</span>Product</label>
+                    <select class="form-control" name="product_id" id="productSelect">
+                        <option disabled selected>Select Product</option>
+                        @foreach ($products as $p)
+                            <option value="{{ $p->id }}" {{ $p->id == $facility->product_id ? 'selected' : '' }}>{{ $p->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" class="form-control" id="description" rows="4">{{ $facility->description }}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Back</a>
-        </form>
-    </div>
-</body>
-</html>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" class="form-control" id="description" rows="4">{{ $facility->description }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+@endsection
