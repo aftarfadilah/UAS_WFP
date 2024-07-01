@@ -10,7 +10,11 @@
 
     @extends('layout.conquer2')
     @section('anak')
+    
+    @can('create', App\Models\Hotel::class)
     <a class="btn btn-primary" href="{{ url('/hotel/create') }}">Create Hotel</a>
+@endcan
+
         <table class="table table-hover">
             <thead>
                 <tr>
