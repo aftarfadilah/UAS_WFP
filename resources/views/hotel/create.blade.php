@@ -45,6 +45,12 @@
         <small id="categoryHelp" class="form-text text-muted">We'll never share your Category with anyone else.</small>
     </div>
     <div class="form-group">
+    <label for="postcodeInput">Postcode</label>
+    <input name="postcode" type="text" class="form-control" id="postcodeInput" aria-describedby="postcodeHelp" placeholder="Enter Postcode">
+    <small id="postcodeHelp" class="form-text text-muted">We'll never share your postcode with anyone else.</small>
+</div>
+
+    <div class="form-group">
         <label for="type_id">Hotel Type</label>
         <select class="form-control" name="type_id">
             @foreach ($types as $t)

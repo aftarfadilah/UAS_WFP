@@ -42,7 +42,8 @@ class HotelController extends Controller
                             'emailType'=> 'required',
                             'accommodationType'=> 'required',
                             'categoryType'=> 'required',
-                            'type_id'=> 'required']);
+                            'type_id'=> 'required',
+                            'postcode'=> 'required']);
 
 
         $newData = new Hotel();
@@ -55,6 +56,15 @@ class HotelController extends Controller
         $newData->accommodation_type = $request->accommodationType;
         $newData->category = $request->categoryType;
         $newData->type_id = $request->type_id;
+        $newData->postcode = $request->postcode;
+        $newData->longitude = 0;
+        $newData->latitude = 0;
+        $newData->phone = 0;
+        $newData->fax = 0;
+        $newData->currency = 'idr';
+        $newData->web = 'google.com';
+        $newData->image = '1.jpg';
+        $newData->partner_reference  = 2 ;
 
         $newData->save();
         return redirect()->route('hotel.index');
@@ -91,7 +101,8 @@ class HotelController extends Controller
                             'emailType'=> 'required',
                             'accommodationType'=> 'required',
                             'categoryType'=> 'required',
-                            'type_id'=> 'required']);
+                            'type_id'=> 'required',
+                            'postcode'=> 'required']);
 
 
         $newData = Hotel::find($id);
@@ -104,6 +115,7 @@ class HotelController extends Controller
         $newData->accommodation_type = $request->accommodationType;
         $newData->category = $request->categoryType;
         $newData->type_id = $request->type_id;
+        $newData->post_code = $request->postcode;
 
         $newData->save();
         return redirect()->route('hotel.index');
