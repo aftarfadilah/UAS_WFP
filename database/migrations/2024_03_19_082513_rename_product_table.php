@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::rename('product', 'products');
 
         Schema::table('products', function(Blueprint $table){
-            $table->foreign('hotel_id')->references('partner_reference')->on('hotels');
+            $table->foreign('hotel_id')->references('partner_reference')->on('hotels')->onDelete('cascade');
         });
     }
 

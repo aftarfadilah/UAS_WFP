@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('hotels', function(Blueprint $table){
-            $table->unsignedBigInteger('partner_reference');
+            $table->unsignedBigInteger('partner_reference')->unique();
         });
 
         Schema::table('product', function(Blueprint $table){
             $table->unsignedBigInteger('hotel_id');
 
-            $table->foreign('hotel_id')->references('partner_reference')->on('hotels');
+            $table->foreign('hotel_id')->references('partner_reference')->on('hotels')->onDelete('cascade');
         });
     }
 
