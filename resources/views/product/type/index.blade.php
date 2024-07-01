@@ -1,5 +1,4 @@
 @extends('layout.conquer2')
-@section('anak2', 'Daftar Hotel')
 @section('anak')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <a href="#modalCreate" data-toggle="modal" class="btn btn-info">+ New Type</a>
@@ -12,7 +11,7 @@
                     <h4 class="modal-title">Add New Type</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('hotel.type.store') }}">
+                    <form method="POST" action="{{ route('product.type.store') }}">
                         @csrf
                         <div class="form-group">
                             <label for="inputType">Type Name</label>
@@ -51,8 +50,8 @@
                 <tr id="tr_{{ $types->id }}">
                     <td id="td_name_{{ $types->id }}">{{ $types->name }}</td>
                     <td>
-                        <a href="#modalEdit" class="btn btn-primary" data-toggle="modal" onclick="getEditForm({{ $types->id }})">Edit</a>
-                        <form method="POST" action="{{ route('hotel.type.destroy', $types->id) }}" style="display: inline" class="btn btn-danger">
+                        <a href="#modalEdit" class="btn btn-primary" data-toggle="modal" onclick="getEditProductTypeForm(<?= $types->id ?>)">Edit</a>
+                        <form method="POST" action="{{ route('product.type.destroy', $types->id) }}" style="display: inline" class="btn btn-danger">
                             @csrf
                             @method('DELETE')
                             <input type="submit" value="Delete" onclick="return confirm('Are you sure to delete {{ $types->id }} - {{ $types->name }} ? ');" style="background-color: transparent; border: none; padding: 0">
@@ -73,10 +72,10 @@
 
 @section('javascript')
     <script>
-        function getEditForm(id) {
+        function getEditProductTypeForm(id) {
             $.ajax({
                 type: 'POST',
-                url: "{{ route('hotel.type.getEditForm') }}",
+                url: "{{ route('product.type.getEditForm') }}",
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'id': id
@@ -90,7 +89,7 @@
         function deleteDataRemoveTR(type_id) {
             $.ajax({
                 type: 'POST',
-                url: '{{ route('hotel.type.deleteData') }}',
+                url: "{{ route('product.type.deleteData') }}",
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'id': type_id
@@ -108,7 +107,7 @@
             console.log(eName); //debug->print to browser console
             $.ajax({
                 type: 'POST',
-                url: '{{ route('hotel.type.saveDataTD') }}',
+                url: "{{ route('product.type.saveDataTD') }}",
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'id': type_id,

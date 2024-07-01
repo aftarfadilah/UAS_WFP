@@ -6,6 +6,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\HotelTypeController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Auth;
@@ -84,15 +85,40 @@ Route::middleware(['auth'])->group(function () {
     Route::post('customtransaction/deleteData', [TransactionController::class, 'deleteData'])->name('transaction.deleteData');
 
     // Product
-    Route::resource('product', ProductController::class);
-    
+    Route::resource('product', ProductController::class, [
+        'names' => [
+            'index' => 'product.index',
+            'create' => 'product.create',
+            'store' => 'product.store',
+            'show' => 'product.show',
+            'edit' => 'product.edit',
+            'update' => 'product.update',
+            'destroy' => 'product.destroy'
+        ]
+    ]);
     Route::get('product/uploadPhoto/{product_id}', [ProductController::class, 'uploadPhoto']);
     Route::post('product/simpanPhoto', [ProductController::class, 'simpanPhoto']);
     Route::post('product/delPhoto', [ProductController::class, 'delPhoto']);
-
     Route::post('customproduct/getEditForm', [ProductController::class, 'getEditForm'])->name('product.getEditForm');
     Route::post('customproduct/deleteData', [ProductController::class, 'deleteData'])->name('product.deleteData');
-    Route::get('/tampil-produk/{id}', [ProductController::class, 'tampil-produk'])->name('hotel.tampilProduk');
+    Route::get('/tampil-produk/{id}', [ProductController::class, 'tampil-produk'])->name('product.tampilProduk');
+
+    // Product Type
+    Route::resource('producttype', ProductTypeController::class, [
+        'names' => [
+            'index' => 'product.type.index',
+            'create' => 'product.type.create',
+            'store' => 'product.type.store',
+            'show' => 'product.type.show',
+            'edit' => 'product.type.edit',
+            'update' => 'product.type.update',
+            'destroy' => 'product.type.destroy'
+        ]
+    ]);
+    Route::post('producttype/deleteData', [ProductTypeController::class, 'deleteData'])->name('product.type.deleteData');
+    Route::post('producttype/getEditForm', [ProductTypeController::class, 'getEditForm'])->name('product.type.getEditForm');
+    Route::post('producttype/saveDataTD', [ProductTypeController::class, 'saveDataTD'])->name('product.type.saveDataTD');
+
 
     // Customer
     Route::post('customcustomer/getEditForm', [CustomerController::class, 'getEditForm'])->name('customer.getEditForm');

@@ -163,7 +163,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							</a>
 						</li>
 						<li>
-							<a href="{{ route('product.index') }}">
+							<a href="{{ route('product.type.index') }}">
 								<i class="icon-list"></i>
 								<span class="title">Product Type</span>
 							</a>

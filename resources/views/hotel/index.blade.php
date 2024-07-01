@@ -130,7 +130,7 @@
 
     @endsection
 
-    @section('anak2', 'Daftar Hotel')
+    @section('anak2', 'Hotel List')
     @section('anak3', 'Halaman Daftar Hotel')
 
     @section('javascript')

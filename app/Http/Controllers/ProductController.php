@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-
+use Mockery\Matcher\Type;
 
 class ProductController extends Controller
 {
@@ -36,8 +37,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $datas = Hotel::all();
-        return view ('product.create', ['datas'=>$datas]);
+        $hotels = Hotel::all();
+        $types = ProductType::all();
+        return view ('product.create', ['hotels'=>$hotels, 'types'=>$types]);
     }
 
     /**
@@ -47,13 +49,17 @@ class ProductController extends Controller
     {     
 
         $request->validate(['name' => 'required',
-        'type' => 'required',
-        'available_room' => 'required']);
+                        'hotel' => 'required',
+                        'type' => 'required',
+                        'available_room' => 'required',
+                        'price' => 'required',]);
 
         $newProduct = new Product;
         $newProduct->name = $request->name;
-        $newProduct->tipe_kamar = $request->type;
+        $newProduct->hotel_id = $request->hotel;
+        $newProduct->type_id = $request->type;
         $newProduct->available_room = $request->available_room;
+        $newProduct->price = $request->price;
        
         $newProduct->save();
 
@@ -78,7 +84,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $data = Product::find($id);
-        return view('product.edit', compact('data'));
+        $hotels = Hotel::all();
+        $types = ProductType::all();
+        return view('product.edit', compact('data', 'hotels', 'types'));
     }
 
 
@@ -89,14 +97,18 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'tipe_kamar'=>'required',
-            'room'=>'required'
+            'hotel'=>'required',
+            'type'=>'required',
+            'available_room'=>'required',
+            'price'=>'required',
         ]);
 
         $newProduct = Product::find($id);
         $newProduct->name = $request->name;
-        $newProduct->tipe_kamar = $request->tipe_kamar;
-        $newProduct->available_room = $request-> room;
+        $newProduct->hotel_id = $request->hotel;
+        $newProduct->type_id = $request->type;
+        $newProduct->available_room = $request->available_room;
+        $newProduct->price = $request->price;
         $newProduct->save();
 
         return redirect()->route('product.index')->with('status', 'Sukses');
@@ -111,7 +123,7 @@ class ProductController extends Controller
         try{
             $products = Product::find($id);
             $products->delete();
-            return redirect('product.index');
+            return redirect()->route('product.index');
         }catch(\Throwable $th){
             $msg = "Data tidak dapat dihapus karena sudah digunakan";
             return redirect()->route('product.index')->with('error', $msg);
