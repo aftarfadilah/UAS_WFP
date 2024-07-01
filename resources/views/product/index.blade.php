@@ -77,7 +77,7 @@
                                     @endif
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $p->name }}</h5>
-                                        <h7>{{ $p->hotel->name }}</h7>
+                                        
                                         <p class="card-text">{{ $p->tipe_kamar }}</p>
                                         <small class="text-muted">Price: {{ $p->price }}</small>
                                         <br><br>

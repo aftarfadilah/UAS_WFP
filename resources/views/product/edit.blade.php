@@ -1,7 +1,7 @@
 @extends('layout.conquer2')
 
 @section('anak')
-    <form method="GET" action="{{ route('product.store') }}">
+    <form method="POST" action="{{ route('product.update', $data->id) }}">
         @csrf
         @method('PUT')
         <h2>Add new Product</h2>
@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             <label for="name">Product Type</label>
-            <input type="text" name="desc" class="form-control" id="nameCategory" aria-describedby="nameHelp"
+            <input type="text" name="tipe_kamar" class="form-control" id="nameCategory" aria-describedby="nameHelp"
                 placeholder="Enter product type" value="{{ $data->tipe_kamar }}">
             <small id="nameHelp" class="form-text text-muted">Enter product type</small>
         </div>
@@ -37,12 +37,7 @@
         </div>
         <div class="form-group">
             <label for="name">Hotel of Product</label>
-            <select class="form-control" name="hotel">
-                <option value="" selected disabled>Select Hotel</option>
-                @foreach ($datas as $d)
-                    <option value="{{ $d->id }}">{{ $d->name }}</option>
-                @endforeach
-            </select>
+            
         </div>
         <a class="btn btn-info" href="{{ route('product.index') }}">Cancel</a>
         <button type="submit" class="btn btn-primary">Submit</button>

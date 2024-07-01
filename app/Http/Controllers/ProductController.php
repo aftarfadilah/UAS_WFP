@@ -44,26 +44,20 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'name'=>'required',
-            'hotel_id'=>'required',
-            'tipe_kamar'=>'required',
-            'price'=>'required',
-            'image'=>'required',
-            'available_room'=>'required'
-        ]);
+    {     
 
-        $newProduct = new Product();
-        $newProduct->name = $request->get('name');
-        $newProduct->hotel_id = $request->get('hotel_id');
-        $newProduct->tipe_kamar = $request->get('tipe_kamar');
-        $newProduct->price = $request->get('price');
-        $newProduct->image = $request->get('image');
-        $newProduct->available_room = $request->get('available_room');
+        $request->validate(['name' => 'required',
+        'type' => 'required',
+        'available_room' => 'required']);
+
+        $newProduct = new Product;
+        $newProduct->name = $request->name;
+        $newProduct->tipe_kamar = $request->type;
+        $newProduct->available_room = $request->available_room;
+       
         $newProduct->save();
 
-        return redirect('product.index')->with('status', 'Sukses');
+        return redirect()->route('product.index')->with('status', 'Sukses');
     }
 
     /**
@@ -87,6 +81,7 @@ class ProductController extends Controller
         return view('product.edit', compact('data'));
     }
 
+
     /**
      * Update the specified resource in storage.
      */
@@ -94,23 +89,18 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'hotel_id'=>'required',
             'tipe_kamar'=>'required',
-            'price'=>'required',
-            'image'=>'required',
-            'available_room'=>'required'
+            'room'=>'required'
         ]);
 
         $newProduct = Product::find($id);
         $newProduct->name = $request->name;
-        $newProduct->hotel_id = $request->hotel_id;
         $newProduct->tipe_kamar = $request->tipe_kamar;
-        $newProduct->price = $request->price;
-        $newProduct->image = $request->image;
-        $newProduct->available_room = $request->available_room;
+        $newProduct->available_room = $request-> room;
         $newProduct->save();
 
-        return redirect('product.index')->with('status', 'Update Succesfull');
+        return redirect()->route('product.index')->with('status', 'Sukses');
+    
     }
 
     /**
