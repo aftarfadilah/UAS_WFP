@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
 
 class FrontEndController extends Controller
 {
