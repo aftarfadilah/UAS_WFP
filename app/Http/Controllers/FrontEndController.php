@@ -146,7 +146,7 @@ class FrontEndController extends Controller
                 // Add points for deluxe, superior, or suite products
                 $totalPoints += 5 * $item['quantity'];
             } else {
-                // Add points based on other conditions
+                // Add points if type is other than
                 $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
             }
         }
