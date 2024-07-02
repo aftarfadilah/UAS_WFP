@@ -24,7 +24,7 @@ class Product extends Model
     }
 
     public function productType(){
-        return $this->belongsTo(ProductType::class, 'product_type_id')->withTrashed();
+        return $this->belongsTo(ProductType::class, 'type_id')->withTrashed();
     }
 
     public function facilities(){

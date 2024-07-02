@@ -1,15 +1,37 @@
 @extends('layout.frontend')
 
 @section('content')
+@php
+    $total = 0;
+    $totalPoints = 0;
+
+    // Fetch user points
+    $userPoints = Auth::user()->poin ?? 0;
+
+    if (session('cart')) {
+        foreach (session('cart') as $item) {
+            $typeName = isset($item['product']) ? $item['product']->type->name : null;
+            if ($typeName == 'deluxe' || $typeName == 'superior' || $typeName == 'suite') {
+                $totalPoints += 5 * $item['quantity'];
+            } else {
+                $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
+            }
+            $total += $item['quantity'] * $item['price'];
+        }
+    }
+@endphp
+
 <div class="cart-page">
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Total Points Earned: {{ $userPoints }}</h2> <!-- Display total points user has already earned -->
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-8">
                 <div class="cart-page-inner">
                     <div class="table-responsive">
-                        @php
-                            $total = 0;
-                        @endphp
                         <table class="table table-bordered">
                             <thead class="thead-dark">
                                 <tr>
@@ -26,28 +48,25 @@
                                     <tr>
                                         <td>
                                             <div class="img">
-                                                @if ($item['photo'] == NULL)
-                                                <a href="#"><img src="{{asset('images/blank.jpg') }}" alt="Image"></a>
+                                                @if (!empty($item['photo']))
+                                                    <a href="#"><img src="{{ asset('images/'.$item['photo']) }}" alt="Image"></a>
                                                 @else
-                                                <a href="#"><img src="{{asset('images/'.$item['photo']) }}" alt="Image"></a>
+                                                    <a href="#"><img src="{{ asset('images/blank.jpg') }}" alt="Image"></a>
                                                 @endif
-                                                <p>{{$item['name']}}</p>
+                                                <p>{{ $item['name'] }}</p>
                                             </div>
                                         </td> 
-                                        <td>{{'IDR '.$item['price']}}</td>
+                                        <td>{{ 'IDR '.$item['price'] }}</td>
                                         <td>
                                             <div class="qty">
-                                                <button onclick="redQty({{$item['id']}})" class="btn-minus"><i class="fa fa-minus"></i></button>
+                                                <button onclick="redQty({{ $item['id'] }})" class="btn-minus"><i class="fa fa-minus"></i></button>
                                                 <input type="text" value="{{ $item['quantity'] }}">
-                                                <button onclick="addQty({{$item['id']}})" class="btn-plus"><i class="fa fa-plus"></i></button>
+                                                <button onclick="addQty({{ $item['id'] }})" class="btn-plus"><i class="fa fa-plus"></i></button>
                                             </div>
                                         </td>
-                                        <td>{{ 'IDR '.$item['quantity']* $item['price'] }}</td>
-                                        <td><a class="btn btn-danger" href="{{route('delFromCart',$item['id'])}}"><i class="fa fa-trash"></i></a></td>
+                                        <td>{{ 'IDR '.$item['quantity'] * $item['price'] }}</td>
+                                        <td><a class="btn btn-danger" href="{{ route('delFromCart', $item['id']) }}"><i class="fa fa-trash"></i></a></td>
                                     </tr>
-                                    @php
-                                        $total+= $item['quantity']* $item['price'];
-                                    @endphp
                                     @endforeach    
                                 @else
                                 <tr>
@@ -72,12 +91,23 @@
                             <div class="cart-summary">
                                 <div class="cart-content">
                                     <h1>Cart Summary</h1>                          
-                                      <h2>Grand Total<span>{{'IDR '.$total}}</span></h2>
+                                    <h2>Grand Total<span id="grandTotal">{{ 'IDR '.$total }}</span></h2>
+                                    <h2>Total Points (Cart)<span id="totalPoints">{{ $totalPoints }}</span></h2>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="usePointsCheckbox">
+                                        <label class="form-check-label" for="usePointsCheckbox">
+                                            Use Points for Discount
+                                        </label>
+                                    </div>
+                                    <div id="pointsDiscountSection" style="display: none;">
+                                        <h2>Points Used<span id="pointsUsed"></span></h2>
+                                        <h2>Price After Points<span id="priceAfterPoints"></span></h2>
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="d-flex justify-content-between cart-btn">
-                                    <a class="btn btn-xs" href="{{route('laralux.index')}}">Continue Shopping</button>
-                                    <a class="btn btn-xs" href="{{ route('checkout')}}">Checkout</a>
+                                    <a class="btn btn-xs" href="{{ route('laralux.index') }}">Continue Shopping</button>
+                                    <a class="btn btn-xs" href="{{ route('checkout') }}">Checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -91,31 +121,55 @@
 
 @section('js')
     <script>
+        $(document).ready(function() {
+            $('#usePointsCheckbox').change(function() {
+                if ($(this).is(':checked')) {
+                    var total = {{ $total }};
+                    var points = {{ $userPoints }};
+                    var pointsValue = 100000;
+
+                    if (points > 0) {
+                        var maxPointsToUse = Math.floor(total / pointsValue);
+                        var pointsToUse = Math.min(points, maxPointsToUse);
+                        var pointsUsedValue = pointsToUse * pointsValue;
+
+                        $('#pointsUsed').text(' - IDR ' + pointsUsedValue);
+                        $('#priceAfterPoints').text('IDR ' + (total - pointsUsedValue));
+                        $('#pointsDiscountSection').show();
+                    } else {
+                        $('#pointsDiscountSection').hide();
+                    }
+                } else {
+                    $('#pointsDiscountSection').hide();
+                }
+            });
+        });
+
         function redQty(id) {
             $.ajax({
-            type:'POST',
-            url:'{{route("redQty")}}',
-            data: {
-                '_token' : '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success: function(data){
-                location.reload();
-            }
+                type:'POST',
+                url:'{{ route("redQty") }}',
+                data: {
+                    '_token' : '{{ csrf_token() }}',
+                    'id': id
+                },
+                success: function(data){
+                    location.reload();
+                }
             });
         }    
 
         function addQty(id) {
             $.ajax({
-            type:'POST',
-            url:'{{route("addQty")}}',
-            data: {
-                '_token' : '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success: function(data){
-                location.reload();
-            }
+                type:'POST',
+                url:'{{ route("addQty") }}',
+                data: {
+                    '_token' : '{{ csrf_token() }}',
+                    'id': id
+                },
+                success: function(data){
+                    location.reload();
+                }
             });
         }
     </script>

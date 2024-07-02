@@ -141,19 +141,15 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/laralux', [FrontEndController::class, 'index'])->name('laralux.index');
 Route::get('/laralux/{laralux}', [FrontEndController::class, 'show'])->name('laralux.show');
 
-Route::middleware(['auth'])->group(function(){
-    Route::get('laralux/user/cart', function(){
-        return view('frontend.cart.index');
-    })->name('cart');
+Route::middleware(['auth'])->group(function () {
+    Route::get('laralux/user/cart', [FrontEndController::class, 'cart'])->name('cart');
     Route::get('laralux/cart/add/{id}', [FrontEndController::class, 'addToCart'])->name('addCart');
     Route::get('laralux/cart/delete/{id}', [FrontEndController::class, 'deleteFromCart'])->name('delFromCart');
-    
+
     Route::post('laralux/cart/addQty', [FrontEndController::class, 'addQuantity'])->name('addQty');
     Route::post('laralux/cart/reduceQty', [FrontEndController::class, 'reduceQuantity'])->name('redQty');
-    Route::get('laralux/cart/checkout',[FrontEndController::class,'checkout'])->name('checkout');
-
+    Route::get('laralux/cart/checkout', [FrontEndController::class, 'checkout'])->name('checkout');
 });
-
 Route::get('report/hotel/avgPriceByHotelType', [HotelController::class, 'avgHotelPrice']);
 
 
