@@ -16,10 +16,10 @@
     </section>
 
     <div class="album py-5 bg-light">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 @foreach ($products as $p)
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-md-4">
                         <div class="thumbnail">
                             @if($p->filenames)
                                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -86,22 +86,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card mb-4 shadow-sm" id="tr_{{ $p->id }}">
-                                <!-- <img class="card-img-top" src="{{ asset('images/' . $p->image) }}"> -->
-                                
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <td>
-                            @if ($p->typeWithTrashed)
-                                {{ $p->typeWithTrashed->name }}
-                            @endif
-                        </td>
                     </div>
                 @endforeach
             </div>
