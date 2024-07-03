@@ -136,11 +136,13 @@ class FrontEndController extends Controller
         $cart = session('cart');
         $user = Auth::user();
         $totalPoints = 0;
+        $total = 0;
     
         // Calculate total points for the entire cart
         foreach ($cart as $item) {
             $product = Product::find($item['id']);
             $typeName = $product->productType->name;
+            $total += (int)$item['price'];
     
             if ($typeName == 'deluxe' || $typeName == 'superior' || $typeName == 'suite') {
                 // Add points for deluxe, superior, or suite products
@@ -150,11 +152,12 @@ class FrontEndController extends Controller
                 $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
             }
         }
-    
+
         // Save transaction
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
         $transaction->transaction_date = Carbon::now()->toDateTimeString();
+        $transaction->total_amount = $total;
         $transaction->save();
     
         // Insert into junction table product_transaction using eloquent
