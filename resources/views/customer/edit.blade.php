@@ -1,23 +1,34 @@
 @extends('layout.conquer2')
+@section('anak2', 'Edit Facilities')
 
 @section('anak')
-    <form method="GET" action="{{ route('customer.store') }}">
+<div>
+    <form action="{{ route('facilities.update', $facility->id) }}" method="POST">
         @csrf
         @method('PUT')
-        <h2>Add new Customer</h2>
         <div class="form-group">
-            <label for="name">Customer Name</label>
-            <input type="text" name="name" class="form-control" id="nameCategory" aria-describedby="nameHelp"
-                placeholder="Enter customer name" value="{{$data->name}}">
-            <small id="nameHelp" class="form-text text-muted">Enter your name</small>
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name" value="{{ $facility->name }}" required>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="productSelect"><span style="color: red">*</span>Product</label>
+                    <select class="form-control" name="product_id" id="productSelect">
+                        <option disabled selected>Select Product</option>
+                        @foreach ($products as $p)
+                            <option value="{{ $p->id }}" {{ $p->id == $facility->product_id ? 'selected' : '' }}>{{ $p->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="form-group">
-            <label for="name">Customer Address</label>
-            <input type="text" name="address" class="form-control" id="nameCategory" aria-describedby="nameHelp"
-                placeholder="Enter Customer address" value="{{$data->address}}">
-            <small id="nameHelp" class="form-text text-muted">Enter your address</small>
+            <label for="description">Description</label>
+            <textarea name="description" class="form-control" id="description" rows="4">{{ $facility->description }}</textarea>
         </div>
-        <a class="btn btn-info" href="{{ url()->previous() }}">Cancel</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Back</a>
     </form>
+</div>
 @endsection

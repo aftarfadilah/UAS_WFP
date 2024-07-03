@@ -1,22 +1,35 @@
 @extends('layout.conquer2')
+@section('anak2', 'Create Facilities')
 
 @section('anak')
-    <form method="GET" action="{{ route('customer.store') }}">
+<div>
+    <h1>Create Facility</h1>
+    <form action="{{ route('facilities.store') }}" method="POST">
         @csrf
-        <h2>Add new Customer</h2>
         <div class="form-group">
-            <label for="name">Customer Name</label>
-            <input type="text" name="name" class="form-control" id="nameCategory" aria-describedby="nameHelp"
-                placeholder="Enter customer name">
-            <small id="nameHelp" class="form-text text-muted">Enter your name</small>
+            <label for="name"><span style="color: red">*</span>Name</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Facility Name" required>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="productSelect"><span style="color: red">*</span>Product</label>
+                    <select class="form-control" name="product_id" id="productSelect">
+                        <option disabled selected>Select Product</option>
+                        @foreach ($products as $p)
+                            <option value="{{ $p->id }}">{{ $p->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
-            <label for="name">Customer Address</label>
-            <input type="text" name="address" class="form-control" id="nameCategory" aria-describedby="nameHelp"
-                placeholder="Enter Customer address">
-            <small id="nameHelp" class="form-text text-muted">Enter your address</small>
+            <label for="description">Description</label>
+            <textarea name="description" class="form-control" id="description" rows="4" placeholder="Lorem Ipsum dolor sit amet..."></textarea>
         </div>
-        <a class="btn btn-info" href="{{ url()->previous() }}">Cancel</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Back</a>
     </form>
+</div>
 @endsection

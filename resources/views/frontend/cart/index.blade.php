@@ -2,8 +2,11 @@
 
 @section('content')
 @php
-    $total = 0;
     $totalPoints = 0;
+    $subtotal = 0;
+    $tax = 11;
+    $tax_amount = 0;
+    $total = 0;
 
     // Fetch user points
     $userPoints = Auth::user()->poin ?? 0;
@@ -16,8 +19,11 @@
             } else {
                 $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
             }
-            $total += $item['quantity'] * $item['price'];
+            $subtotal += $item['quantity'] * $item['price'];
         }
+
+        $tax_amount = $subtotal * ($tax/100);
+        $total = $subtotal + $tax_amount;
     }
 @endphp
 
@@ -91,6 +97,8 @@
                             <div class="cart-summary">
                                 <div class="cart-content">
                                     <h1>Cart Summary</h1>                          
+                                    <h2>Sub Total<span id="subtotal">{{ 'IDR '.$subtotal }}</span></h2>
+                                    <h2>Tax<span id="taxAmount">{{ 'IDR '.$tax_amount }}</span></h2>
                                     <h2>Grand Total<span id="grandTotal">{{ 'IDR '.$total }}</span></h2>
                                     <h2>Total Points (Cart)<span id="totalPoints">{{ $totalPoints }}</span></h2>
                                     <div class="form-check">

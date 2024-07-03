@@ -133,8 +133,19 @@ Route::middleware(['auth'])->group(function () {
     ]);
 
     // Customer
-    Route::post('customcustomer/getEditForm', [CustomerController::class, 'getEditForm'])->name('customer.getEditForm');
-    Route::post('customcustomer/deleteData', [CustomerController::class, 'deleteData'])->name('customer.deleteData');
+    Route::resource('customer', CustomerController::class, [
+        'names' => [
+            'index' => 'customer.index',
+            'create' => 'customer.create',
+            'store' => 'customer.store',
+            'show' => 'customer.show',
+            'edit' => 'customer.edit',
+            'update' => 'customer.update',
+            'destroy' => 'customer.destroy'
+        ]
+    ]);
+    Route::post('customer/getEditForm', [CustomerController::class, 'getEditForm'])->name('customer.getEditForm');
+    Route::post('customer/deleteData', [CustomerController::class, 'deleteData'])->name('customer.deleteData');
 
 });
 

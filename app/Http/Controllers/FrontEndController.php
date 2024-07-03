@@ -136,27 +136,35 @@ class FrontEndController extends Controller
         $cart = session('cart');
         $user = Auth::user();
         $totalPoints = 0;
+        $subtotal = 0;
+        $tax = 11;
+        $tax_amount = 0;
         $total = 0;
     
         // Calculate total points for the entire cart
         foreach ($cart as $item) {
             $product = Product::find($item['id']);
             $typeName = $product->productType->name;
-            $total += (int)$item['price'];
+            $subtotal += (int)$item['price'] * $item['quantity'];
     
             if ($typeName == 'deluxe' || $typeName == 'superior' || $typeName == 'suite') {
                 // Add points for deluxe, superior, or suite products
                 $totalPoints += 5 * $item['quantity'];
             } else {
-                // Add points if type is other than
+                // Add points if type is other than above
                 $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
             }
         }
+
+        $tax_amount = $subtotal * ($tax / 100);
+        $total = $subtotal + $tax_amount;
 
         // Save transaction
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
         $transaction->transaction_date = Carbon::now()->toDateTimeString();
+        $transaction->subtotal = $subtotal;
+        $transaction->tax_amount = $tax_amount;
         $transaction->total_amount = $total;
         $transaction->save();
     

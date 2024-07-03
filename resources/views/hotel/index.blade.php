@@ -8,9 +8,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Logo</th>
                     <th>Nama</th>
-                    <th>Photo</th>
                     <th>Alamat</th>
                     <th>Kota</th>
                     <th>Tipe</th>
@@ -21,19 +19,7 @@
             <tbody>
                 @foreach ($dataku as $hotel)
                     <tr>
-                        <td>
-                            <img height='100px' src="{{ asset('/logo/'.$hotel->id.'.jpg')}}"/><br>
-                            <a href="{{ url('hotel/uploadLogo/'.$hotel->id) }}">
-                                <button class='btn btn-xs btn-default'>upload</button>
-                            </a>
-                        </td>
                         <td>{{ $hotel->name }}</td>
-                        <td>
-                            <img height='100px' src="{{ asset('/images/'.$hotel->image.'')}}"/><br>
-                            <a href="{{ url('hotel/uploadPhoto/'.$hotel->id) }}">
-                                <button class='btn btn-xs btn-default'>upload</button>
-                            </a>
-                        </td>
                         <td>{{ $hotel->address }}</td>
                         <td>{{ $hotel->city }}</td>
                         <td>{{ $hotel->type }}</td>
