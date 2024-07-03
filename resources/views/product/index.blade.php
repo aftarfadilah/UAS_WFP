@@ -1,6 +1,5 @@
 @extends('layout.conquer2')
 @section('anak2', 'Products')
-
 @section('anak')
 <main role="main">
 

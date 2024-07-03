@@ -8,7 +8,7 @@
           <div class="form-group">
              <label for="exampleInputType">Pilih Logo</label>
              <input type="file" class="form-control" name="file_photo" multiple/>
-             <input type="hidden" name='hotel_id' value="{{$product->id}}"/>
+             <input type="hidden" name='product_id' value="{{$product->id}}"/>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
       </form>

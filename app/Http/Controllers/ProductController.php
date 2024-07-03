@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function index() {
         $products=Product::all();
         foreach($products as $product) {
-            $directory = public_path('/images/product/'.$product->id);
+            $directory = public_path('images\product\\'.$product->id);
             if(File::exists($directory))
             {
                 $files = File::files($directory);
@@ -174,7 +174,7 @@ class ProductController extends Controller
     public function simpanPhoto(Request $request) {
         $file=$request->file("file_photo");
         $folder='images/product/'.$request->product_id;
-        @File::makeDirectory(public_path()."/".$folder);
+        @File::makeDirectory(public_path() . "/" . $folder, 0755, true);
         $filename=time()."_".$file->getClientOriginalName();
         $file->move($folder,$filename);
         return redirect()->route('product.index')->with('status','photo terupload');
