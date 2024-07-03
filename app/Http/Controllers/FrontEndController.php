@@ -6,12 +6,25 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 
 class FrontEndController extends Controller
 {
     public function index() {
         $products = Product::all();
+        foreach($products as $product) {
+            $directory = public_path('images\product\\'.$product->id);
+            if(File::exists($directory))
+            {
+                $files = File::files($directory);
+                $filenames = [];
+                foreach ($files as $file) {
+                    $filenames[] = $file->getFilename();
+                }
+                $product['filenames']=$filenames;
+            }
+        }
         return view('frontend.index', compact('products')); 
     }
 

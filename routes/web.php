@@ -24,43 +24,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('/auth/login');
-});
-
-Route::get('/hotel', function(){
-    return view('hotel');
-});
-
-Route::get('/kategori/{type?}', function($type=''){
-    if($type=='single'){
-        #Memanggil kategori hotel bertipe single
-        return view('hotel',['kategori' => $type]);
-    }
-    elseif($type=='single-semi-double'){
-        #Memanggil kategori hotel bertipe single semi double
-        return view('hotel',['kategori' => $type]);
-    }
-    elseif($type=='standard-double'){
-        #Memanggil kategori hotel bertipe standard double
-        return view('hotel',['kategori' => $type]);
-    }
-    else{
-        return view('hotel',['kategori' => $type]);
-    }
-});
-
-Route::get('/promo/{jenis}', function($jenis){
-    if($jenis =='promo-ramadhan'){
-        return 'Deskripsi Detail promo Promo-sRamadhan';
-    }
-});
+Route::get('/', [FrontEndController::class, 'index'])->name('laralux.index');
 
 Route::middleware(['auth'])->group(function () {
     // Hotel
     Route::resource('hotel', HotelController::class);
     Route::get('report/availableHotelRooms', [HotelController::class, 'availableHotelRoom'])->name('reportShowHotel');
     Route::delete('/hotel/{hotel}', [HotelController::class, 'destroy'])->name('hotel.destroy');
+    Route::get('hotel/showProduk', [HotelController::class, 'showProduk'])->name('hotel.showProduk');
 
     Route::get('hotel/uploadLogo/{hotel_id}', [HotelController::class, 'uploadLogo']);
     Route::post('hotel/simpanLogo', [HotelController::class, 'simpanLogo']);
@@ -164,8 +135,6 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('report/hotel/avgPriceByHotelType', [HotelController::class, 'avgHotelPrice']);
 
-
-Route::get('hotel/showProduk', [HotelController::class, 'showProduk'])->name('hotel.showProduk');
 
 Auth::routes();
 

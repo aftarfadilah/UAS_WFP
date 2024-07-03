@@ -24,10 +24,20 @@
                             </div>
                             <div class="product-image">
                                 <a href="product-detail.html">
-                                    @if ($p->image == NULL)
-                                    <img src="{{asset('images/blank.jpg')}}">
-                                    @else
-                                    <img src="{{asset('images/'.$p->image) }}" alt="Product Image">
+                                    @if($p->filenames)
+                                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                @foreach ($p->filenames as $filename)
+                                                    @if ($loop->first)
+                                                        <div class="carousel-item active">
+                                                            <img src="{{asset('images/product/'.$p->id.'/'.$filename)}}"/>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @else 
+                                        <img src="{{asset('images/blank.jpg')}}">
                                     @endif
                                 </a>
                                 <div class="product-action">
