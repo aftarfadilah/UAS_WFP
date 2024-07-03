@@ -101,22 +101,33 @@
                                     <h2>Tax<span id="taxAmount">{{ 'IDR '.$tax_amount }}</span></h2>
                                     <h2>Grand Total<span id="grandTotal">{{ 'IDR '.$total }}</span></h2>
                                     <h2>Total Points (Cart)<span id="totalPoints">{{ $totalPoints }}</span></h2>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="usePointsCheckbox">
-                                        <label class="form-check-label" for="usePointsCheckbox">
-                                            Use Points for Discount
-                                        </label>
-                                    </div>
+                                    @if ($userPoints > 0)
+                                        <div class="form-check">    
+                                            <input class="form-check-input" type="checkbox" id="usePointsCheckbox" name="usePointsCheckbox">
+                                            <label class="form-check-label" for="usePointsCheckbox">
+                                                Use Points for Discount
+                                            </label>
+                                        </div>
+                                    @else
+                                        <br>
+                                        <p>
+                                            Order above IDR 300.000 to earn points to save 300.000 on your next purchase!
+                                        </p>
+                                    @endif
                                     <div id="pointsDiscountSection" style="display: none;">
                                         <h2>Points Used<span id="pointsUsed"></span></h2>
                                         <h2>Price After Points<span id="priceAfterPoints"></span></h2>
                                     </div>
                                 </div>
                                 <br>
-                                <div class="d-flex justify-content-between cart-btn">
-                                    <a class="btn btn-xs" href="{{ route('laralux.index') }}">Continue Shopping</button>
-                                    <a class="btn btn-xs" href="{{ route('checkout') }}">Checkout</a>
-                                </div>
+                                <form method="POST" action="{{ route('checkout') }}">
+                                    @csrf
+                                    <input type="hidden" id="usePointsHidden" name="use_points_hidden" value="0">
+                                    <div class="d-flex justify-content-between cart-btn">
+                                        <a class="btn btn-xs" href="{{ route('laralux.index') }}">Continue Shopping</a>
+                                        <button type="submit" class="btn btn-xs">Checkout</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -150,6 +161,11 @@
                 } else {
                     $('#pointsDiscountSection').hide();
                 }
+            });
+
+            $('#usePointsCheckbox').change(function() {
+                $('#usePointsHidden').val(this.checked ? 1 : 0);
+                $('#pointsDiscountSection').toggle(this.checked);
             });
         });
 

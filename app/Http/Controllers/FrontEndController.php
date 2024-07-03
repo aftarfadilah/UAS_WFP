@@ -145,7 +145,7 @@ class FrontEndController extends Controller
         return redirect()->back()->with("status","Produk Telah dibuang dari Cart");
     }
 
-    public function checkout() {
+    public function checkout(Request $request) {
         $cart = session('cart');
         $user = Auth::user();
         $totalPoints = 0;
@@ -165,25 +165,39 @@ class FrontEndController extends Controller
                 $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
             }
         }
-
+    
         $tax_amount = $subtotal * ($tax / 100);
         $total = $subtotal + $tax_amount;
-
+    
+        $usePoints = $request->input('use_points_hidden') == 1;
+        $pointsUsed = 0;
+    
+        if ($usePoints) {
+            // 1 point = 100,000 IDR discount
+            $maxDiscount = $user->poin * 100000;
+            $pointsDiscount = min($maxDiscount, $total);
+            $total -= $pointsDiscount;
+            $pointsUsed = $pointsDiscount / 100000;
+            $user->poin -= $pointsUsed;
+        } else {
+            $user->poin += $totalPoints;
+        }
+    
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
         $transaction->transaction_date = Carbon::now()->toDateTimeString();
         $transaction->subtotal = $subtotal;
         $transaction->tax_amount = $tax_amount;
         $transaction->total_amount = $total;
+        $transaction->points_used = $pointsUsed;
         $transaction->save();
     
         $transaction->insertProducts($cart, $user);
     
-        $user->poin += $totalPoints;
         $user->save();
     
         session()->forget('cart');
     
         return redirect()->route('laralux.index')->with('status', 'Checkout berhasil');
-    }
+    }    
 }
