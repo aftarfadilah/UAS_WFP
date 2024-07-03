@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up()
     {
-        // Temporarily change the column to allow for larger values
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->decimal('total_amount', 20, 2)->nullable()->change();
-        });
+    
 
     
         // Change the column to the desired structure
         Schema::table('transactions', function (Blueprint $table) {
             $table->decimal('total_amount', 20, 2)->change();
+        });
+        Schema::table('product_transaction', function (Blueprint $table) {
+            $table->decimal('subtotal', 20, 2)->change();
         });
     }
 
@@ -32,6 +32,9 @@ return new class extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             $table->decimal('total_amount', 10, 2)->change();
+        });
+        Schema::table('product_transaction', function (Blueprint $table) {
+            $table->decimal('subtotal', 10, 2)->change();
         });
     }
 };
