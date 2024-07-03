@@ -141,17 +141,14 @@ class FrontEndController extends Controller
         $tax_amount = 0;
         $total = 0;
     
-        // Calculate total points for the entire cart
         foreach ($cart as $item) {
             $product = Product::find($item['id']);
             $typeName = $product->productType->name;
             $subtotal += (int)$item['price'] * $item['quantity'];
     
             if ($typeName == 'deluxe' || $typeName == 'superior' || $typeName == 'suite') {
-                // Add points for deluxe, superior, or suite products
                 $totalPoints += 5 * $item['quantity'];
             } else {
-                // Add points if type is other than above
                 $totalPoints += floor($item['quantity'] * $item['price'] / 300000);
             }
         }
@@ -159,7 +156,6 @@ class FrontEndController extends Controller
         $tax_amount = $subtotal * ($tax / 100);
         $total = $subtotal + $tax_amount;
 
-        // Save transaction
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
         $transaction->transaction_date = Carbon::now()->toDateTimeString();
@@ -168,14 +164,11 @@ class FrontEndController extends Controller
         $transaction->total_amount = $total;
         $transaction->save();
     
-        // Insert into junction table product_transaction using eloquent
         $transaction->insertProducts($cart, $user);
     
-        // Update user points
         $user->poin += $totalPoints;
         $user->save();
     
-        // Clear cart after checkout
         session()->forget('cart');
     
         return redirect()->route('laralux.index')->with('status', 'Checkout berhasil');
