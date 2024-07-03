@@ -11,6 +11,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,19 +134,19 @@ Route::middleware(['auth'])->group(function () {
     ]);
 
     // Customer
-    Route::resource('customer', CustomerController::class, [
+    Route::resource('users', UserController::class, [
         'names' => [
-            'index' => 'customer.index',
-            'create' => 'customer.create',
-            'store' => 'customer.store',
-            'show' => 'customer.show',
-            'edit' => 'customer.edit',
-            'update' => 'customer.update',
-            'destroy' => 'customer.destroy'
+            'index' => 'users.index',
+            'create' => 'users.create',
+            'store' => 'users.store',
+            'show' => 'users.show',
+            'edit' => 'users.edit',
+            'update' => 'users.update',
+            'destroy' => 'users.destroy'
         ]
     ]);
-    Route::post('customer/getEditForm', [CustomerController::class, 'getEditForm'])->name('customer.getEditForm');
-    Route::post('customer/deleteData', [CustomerController::class, 'deleteData'])->name('customer.deleteData');
+    Route::post('users/getEditForm', [UserController::class, 'getEditForm'])->name('users.getEditForm');
+    Route::post('users/deleteData', [UserController::class, 'deleteData'])->name('users.deleteData');
 
 });
 
